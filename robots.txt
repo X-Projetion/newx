@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /  
-
-Sitemap: https://mia.fisip.unila.ac.id/sitemap.xml
