@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://akuntansi.feb.unila.ac.id/sitemap.xml
+Sitemap: https://mia.fisip.unila.ac.id/sitemap.xml
